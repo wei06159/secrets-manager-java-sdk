@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2025.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -197,7 +197,7 @@ public class ListSecretLocksOptions extends GenericModel {
    * Sort a collection of locks by the specified field in ascending order. To sort in descending order use the `-`
    * character
    *
-   * **Available values:** created_at | updated_at | name
+   * **Available values:** `created_at`, `updated_at`, `name`
    *
    * **Usage:** To sort a list of locks by their creation date, use
    * `../locks?sort=created_at`.

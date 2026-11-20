@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2025.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -47,10 +47,17 @@ public class ConfigurationPrototype extends GenericModel {
     discriminatorMapping.put("custom_credentials_configuration", CustomCredentialsConfigurationPrototype.class);
   }
   /**
-   * The configuration type. Can be one of: iam_credentials_configuration, public_cert_configuration_ca_lets_encrypt,
-   * public_cert_configuration_dns_classic_infrastructure, public_cert_configuration_dns_cloud_internet_services,
-   * private_cert_configuration_root_ca, private_cert_configuration_intermediate_ca,
-   * private_cert_configuration_template, custom_credentials_configuration.
+   * The configuration type:
+   * * `iam_credentials_configuration`: IAM credentials configuration.
+   * * `public_cert_configuration_ca_lets_encrypt`: Public certificate Let's Encrypt CA configuration.
+   * * `public_cert_configuration_dns_classic_infrastructure`: Public certificate DNS configuration for IBM Cloud
+   * classic infrastructure.
+   * * `public_cert_configuration_dns_cloud_internet_services`: Public certificate DNS configuration for IBM Cloud Cloud
+   * Internet Services.
+   * * `private_cert_configuration_root_ca`: Private certificate root CA configuration.
+   * * `private_cert_configuration_intermediate_ca`: Private certificate intermediate CA configuration.
+   * * `private_cert_configuration_template`: Private certificate certificate template configuration.
+   * * `custom_credentials_configuration`: Custom credentials configuration.
    */
   public interface ConfigType {
     /** public_cert_configuration_dns_cloud_internet_services. */
@@ -260,10 +267,17 @@ public class ConfigurationPrototype extends GenericModel {
   /**
    * Gets the configType.
    *
-   * The configuration type. Can be one of: iam_credentials_configuration, public_cert_configuration_ca_lets_encrypt,
-   * public_cert_configuration_dns_classic_infrastructure, public_cert_configuration_dns_cloud_internet_services,
-   * private_cert_configuration_root_ca, private_cert_configuration_intermediate_ca,
-   * private_cert_configuration_template, custom_credentials_configuration.
+   * The configuration type:
+   * * `iam_credentials_configuration`: IAM credentials configuration.
+   * * `public_cert_configuration_ca_lets_encrypt`: Public certificate Let's Encrypt CA configuration.
+   * * `public_cert_configuration_dns_classic_infrastructure`: Public certificate DNS configuration for IBM Cloud
+   * classic infrastructure.
+   * * `public_cert_configuration_dns_cloud_internet_services`: Public certificate DNS configuration for IBM Cloud Cloud
+   * Internet Services.
+   * * `private_cert_configuration_root_ca`: Private certificate root CA configuration.
+   * * `private_cert_configuration_intermediate_ca`: Private certificate intermediate CA configuration.
+   * * `private_cert_configuration_template`: Private certificate certificate template configuration.
+   * * `custom_credentials_configuration`: Custom credentials configuration.
    *
    * @return the configType
    */
@@ -1113,7 +1127,7 @@ public class ConfigurationPrototype extends GenericModel {
    *
    * This parameter indicates whether the API key configuration is disabled.
    *
-   * If it is set to `true`, the IAM credentials engine doesn't use the configured API key for credentials management.
+   * If it is set to `true`, IAM credentials don't use the configured API key for credentials management.
    *
    * @return the disabled
    */
@@ -1124,7 +1138,7 @@ public class ConfigurationPrototype extends GenericModel {
   /**
    * Gets the apiKeyRef.
    *
-   * The IAM credentials secret ID that is used for setting up a custom credentials engine configuration.
+   * The IAM credentials secret ID that is used to set up a custom credentials configuration.
    *
    * @return the apiKeyRef
    */

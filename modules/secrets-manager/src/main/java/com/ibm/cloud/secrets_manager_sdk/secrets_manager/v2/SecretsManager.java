@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2025.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -12,7 +12,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.107.0-b68ebf7a-20250811-145645
+ * IBM OpenAPI SDK Code Generator Version: 3.117.3-3e91ab11-20261028-182643
  */
 
 package com.ibm.cloud.secrets_manager_sdk.secrets_manager.v2;
@@ -532,7 +532,7 @@ public class SecretsManager extends BaseService {
   /**
    * Get a secret by name.
    *
-   * Get a secret and its details by specifying the Name and Type of the secret.
+   * Get a secret and its details by specifying the name and type of the secret.
    *
    * A successful request returns the secret data that is associated with your secret, along with other metadata. To
    * view only the details of a specified secret without retrieving its value, use the Get secret metadata operation.
@@ -645,9 +645,9 @@ public class SecretsManager extends BaseService {
    *
    * This operation is available for the following secret types:
    *
-   * `iam_credentials`: current version only
+   * `IAM_CREDENTIALS`: current version only
    *
-   * `custom_credentials`: both current and previous versions.
+   * `CUSTOM_CREDENTIALS`: both current and previous versions.
    *
    * @param deleteSecretVersionDataOptions the {@link DeleteSecretVersionDataOptions} containing the options for the call
    * @return a {@link ServiceCall} with a void result
@@ -754,7 +754,7 @@ public class SecretsManager extends BaseService {
    *
    * List secret tasks.
    *
-   * Supported secret types: `custom_credentials`.
+   * Supported secret types: `CUSTOM_CREDENTIALS`.
    *
    * @param listSecretTasksOptions the {@link ListSecretTasksOptions} containing the options for the call
    * @return a {@link ServiceCall} with a result of type {@link SecretTaskCollection}
@@ -782,7 +782,7 @@ public class SecretsManager extends BaseService {
    *
    * A successful request returns the task that is associated with your secret.
    *
-   * Supported secret types: `custom_credentials`.
+   * Supported secret types: `CUSTOM_CREDENTIALS`.
    *
    * @param getSecretTaskOptions the {@link GetSecretTaskOptions} containing the options for the call
    * @return a {@link ServiceCall} with a result of type {@link SecretTask}
@@ -809,7 +809,7 @@ public class SecretsManager extends BaseService {
    *
    * A callback endpoint for updating a task with results.
    *
-   * Supported secret types: `custom_credentials`.
+   * Supported secret types: `CUSTOM_CREDENTIALS`.
    *
    * @param replaceSecretTaskOptions the {@link ReplaceSecretTaskOptions} containing the options for the call
    * @return a {@link ServiceCall} with a result of type {@link SecretTask}
@@ -837,7 +837,7 @@ public class SecretsManager extends BaseService {
    *
    * Delete a task by specifying the ID of the secret.
    *
-   * Supported secret types: `custom_credentials`.
+   * Supported secret types: `CUSTOM_CREDENTIALS`.
    *
    * @param deleteSecretTaskOptions the {@link DeleteSecretTaskOptions} containing the options for the call
    * @return a {@link ServiceCall} with a void result
@@ -949,9 +949,10 @@ public class SecretsManager extends BaseService {
    * Additionally, you can use this operation to clear any matching locks on a secret by using one of the following
    * optional lock modes:
    *
-   * - `remove_previous`: Removes any other locks with matching names if they are found in the previous version of the
-   * secret.\n
-   * - `remove_previous_and_delete`: Carries out the same function as `remove_previous`, but also permanently deletes
+   * - `REMOVE_PREVIOUS`: Removes any other locks with matching names if they are found in the previous version of the
+   * secret.
+   *
+   * - `REMOVE_PREVIOUS_AND_DELETE`: Carries out the same function as `REMOVE_PREVIOUS`, but also permanently deletes
    * the data of the previous secret version if it doesn't have any locks.
    *
    * @param createSecretLocksBulkOptions the {@link CreateSecretLocksBulkOptions} containing the options for the call
@@ -1061,9 +1062,9 @@ public class SecretsManager extends BaseService {
    * Additionally, you can use this operation to clear any matching locks on a secret by using one of the following
    * optional lock modes:
    *
-   * - `remove_previous`: Removes any other locks with matching names if they are found in the previous version of the
+   * - `REMOVE_PREVIOUS`: Removes any other locks with matching names if they are found in the previous version of the
    * secret.
-   * - `remove_previous_and_delete`: Carries out the same function as `remove_previous`, but also permanently deletes
+   * - `REMOVE_PREVIOUS_AND_DELETE`: Carries out the same function as `REMOVE_PREVIOUS`, but also permanently deletes
    * the data of the previous secret version if it doesn't have any locks.
    *
    * @param createSecretVersionLocksBulkOptions the {@link CreateSecretVersionLocksBulkOptions} containing the options for the call
@@ -1133,9 +1134,9 @@ public class SecretsManager extends BaseService {
    *
    * Add a configuration to the specified secret type.
    *
-   * Use this operation to define the configurations that are required to create public certificates (`public_cert`),
-   * private certificates (`private_cert`), IAM credentials secrets (`iam_credentials`) and custom credentials secrets
-   * (`custom_credentials`).
+   * Use this operation to define the configurations that are required to create public certificates (`PUBLIC_CERT`),
+   * private certificates (`PRIVATE_CERT`), IAM credentials secrets (`IAM_CREDENTIALS`) and custom credentials secrets
+   * (`CUSTOM_CREDENTIALS`).
    *
    * You can add multiple configurations for your instance as follows:
    *

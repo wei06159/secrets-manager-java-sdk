@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2025.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -302,6 +302,19 @@ public class SecretsManagerIT extends SdkIntegrationTestBase {
     return "../../secrets_manager_v2.env";
   }
 
+  /**
+   * Reads a raw (non SECRETS_MANAGER_-prefixed) property, e.g. DNS_CONFIG_API_KEY, from the config file.
+   */
+  private String getRawConfigProperty(String key) throws Exception {
+    java.util.Properties props = new java.util.Properties();
+    try (java.io.FileReader reader = new java.io.FileReader(getConfigFilename())) {
+      props.load(reader);
+    }
+    String value = props.getProperty(key);
+    assertNotNull(value, key + " not found in " + getConfigFilename());
+    return value;
+  }
+
   @BeforeClass
   public void constructService() {
     // Ask super if we should skip the tests.
@@ -385,6 +398,70 @@ public class SecretsManagerIT extends SdkIntegrationTestBase {
   }
 
   @Test(dependsOnMethods = { "testCreateSecret" })
+  public void testListSecrets() throws Exception {
+    try {
+      ListSecretsOptions listSecretsOptions = new ListSecretsOptions.Builder()
+        .offset(Long.valueOf("0"))
+        .limit(Long.valueOf("10"))
+        .sort("created_at")
+        .search("example")
+        .groups(java.util.Arrays.asList("default", secretGroupIdForGetSecretGroupLink))
+        .secretTypes(java.util.Arrays.asList("arbitrary", "kv"))
+        .matchAllLabels(java.util.Arrays.asList("dev", "us-south"))
+        .build();
+
+      // Invoke operation
+      Response<SecretMetadataPaginatedCollection> response = service.listSecrets(listSecretsOptions).execute();
+      // Validate response
+      assertNotNull(response);
+      assertEquals(response.getStatusCode(), 200);
+
+      SecretMetadataPaginatedCollection secretMetadataPaginatedCollectionResult = response.getResult();
+      assertNotNull(secretMetadataPaginatedCollectionResult);
+
+    } catch (ServiceResponseException e) {
+        fail(String.format("Service returned status code %d: %s%nError details: %s",
+          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    }
+  }
+
+  @Test(dependsOnMethods = { "testListSecrets" })
+  public void testListSecretsWithPager() throws Exception {
+    try {
+      ListSecretsOptions options = new ListSecretsOptions.Builder()
+        .limit(Long.valueOf("10"))
+        .sort("created_at")
+        .search("example")
+        .groups(java.util.Arrays.asList("default", secretGroupIdForGetSecretGroupLink))
+        .secretTypes(java.util.Arrays.asList("arbitrary", "kv"))
+        .matchAllLabels(java.util.Arrays.asList("dev", "us-south"))
+        .build();
+
+      // Test getNext().
+      List<SecretMetadata> allResults = new ArrayList<>();
+      SecretsPager pager = new SecretsPager(service, options);
+      while (pager.hasNext()) {
+        List<SecretMetadata> nextPage = pager.getNext();
+        assertNotNull(nextPage);
+        allResults.addAll(nextPage);
+      }
+      assertFalse(allResults.isEmpty());
+
+      // Test getAll();
+      pager = new SecretsPager(service, options);
+      List<SecretMetadata> allItems = pager.getAll();
+      assertNotNull(allItems);
+      assertFalse(allItems.isEmpty());
+
+      assertEquals(allItems.size(), allResults.size());
+      System.out.println(String.format("Retrieved a total of %d item(s) with pagination.", allResults.size()));
+    } catch (ServiceResponseException e) {
+        fail(String.format("Service returned status code %d: %s%nError details: %s",
+          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    }
+  }
+
+  @Test(dependsOnMethods = { "testListSecrets" })
   public void testUpdateSecretMetadata() throws Exception {
     try {
       ArbitrarySecretMetadataPatch secretMetadataPatchModel = new ArbitrarySecretMetadataPatch.Builder()
@@ -485,8 +562,8 @@ public class SecretsManagerIT extends SdkIntegrationTestBase {
       PublicCertificateConfigurationDNSCloudInternetServicesPrototype configurationPrototypeModel = new PublicCertificateConfigurationDNSCloudInternetServicesPrototype.Builder()
         .configType("public_cert_configuration_dns_cloud_internet_services")
         .name("example-cloud-internet-services-config")
-        .cloudInternetServicesApikey("5ipu_ykv0PMp2MhxQnDMn7VzrkSlBwi3BOI8uthi_EXZ")
-        .cloudInternetServicesCrn("crn:v1:bluemix:public:internet-svcs:global:a/128e84fcca45c1224aae525d31ef2b52:009a0357-1460-42b4-b903-10580aba7dd8::")
+        .cloudInternetServicesApikey(getRawConfigProperty("DNS_CONFIG_API_KEY"))
+        .cloudInternetServicesCrn(getRawConfigProperty("DNS_CONFIG_CRN"))
         .build();
 
       CreateConfigurationOptions createConfigurationOptions = new CreateConfigurationOptions.Builder()
@@ -581,70 +658,6 @@ public class SecretsManagerIT extends SdkIntegrationTestBase {
   }
 
   @Test(dependsOnMethods = { "testUpdateSecretGroup" })
-  public void testListSecrets() throws Exception {
-    try {
-      ListSecretsOptions listSecretsOptions = new ListSecretsOptions.Builder()
-        .offset(Long.valueOf("0"))
-        .limit(Long.valueOf("10"))
-        .sort("created_at")
-        .search("example")
-        .groups(java.util.Arrays.asList("default", "cac40995-c37a-4dcb-9506-472869077634"))
-        .secretTypes(java.util.Arrays.asList("arbitrary", "kv"))
-        .matchAllLabels(java.util.Arrays.asList("dev", "us-south"))
-        .build();
-
-      // Invoke operation
-      Response<SecretMetadataPaginatedCollection> response = service.listSecrets(listSecretsOptions).execute();
-      // Validate response
-      assertNotNull(response);
-      assertEquals(response.getStatusCode(), 200);
-
-      SecretMetadataPaginatedCollection secretMetadataPaginatedCollectionResult = response.getResult();
-      assertNotNull(secretMetadataPaginatedCollectionResult);
-
-    } catch (ServiceResponseException e) {
-        fail(String.format("Service returned status code %d: %s%nError details: %s",
-          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
-    }
-  }
-
-  @Test(dependsOnMethods = { "testListSecrets" })
-  public void testListSecretsWithPager() throws Exception {
-    try {
-      ListSecretsOptions options = new ListSecretsOptions.Builder()
-        .limit(Long.valueOf("10"))
-        .sort("created_at")
-        .search("example")
-        .groups(java.util.Arrays.asList("default", "cac40995-c37a-4dcb-9506-472869077634"))
-        .secretTypes(java.util.Arrays.asList("arbitrary", "kv"))
-        .matchAllLabels(java.util.Arrays.asList("dev", "us-south"))
-        .build();
-
-      // Test getNext().
-      List<SecretMetadata> allResults = new ArrayList<>();
-      SecretsPager pager = new SecretsPager(service, options);
-      while (pager.hasNext()) {
-        List<SecretMetadata> nextPage = pager.getNext();
-        assertNotNull(nextPage);
-        allResults.addAll(nextPage);
-      }
-      assertFalse(allResults.isEmpty());
-
-      // Test getAll();
-      pager = new SecretsPager(service, options);
-      List<SecretMetadata> allItems = pager.getAll();
-      assertNotNull(allItems);
-      assertFalse(allItems.isEmpty());
-
-      assertEquals(allItems.size(), allResults.size());
-      System.out.println(String.format("Retrieved a total of %d item(s) with pagination.", allResults.size()));
-    } catch (ServiceResponseException e) {
-        fail(String.format("Service returned status code %d: %s%nError details: %s",
-          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
-    }
-  }
-
-  @Test(dependsOnMethods = { "testListSecrets" })
   public void testGetSecret() throws Exception {
     try {
       GetSecretOptions getSecretOptions = new GetSecretOptions.Builder()
@@ -848,7 +861,7 @@ public class SecretsManagerIT extends SdkIntegrationTestBase {
         .offset(Long.valueOf("0"))
         .limit(Long.valueOf("10"))
         .search("example")
-        .groups(java.util.Arrays.asList("default", "cac40995-c37a-4dcb-9506-472869077634"))
+        .groups(java.util.Arrays.asList("default", secretGroupIdForGetSecretGroupLink))
         .build();
 
       // Invoke operation
@@ -872,7 +885,7 @@ public class SecretsManagerIT extends SdkIntegrationTestBase {
       ListSecretsLocksOptions options = new ListSecretsLocksOptions.Builder()
         .limit(Long.valueOf("10"))
         .search("example")
-        .groups(java.util.Arrays.asList("default", "cac40995-c37a-4dcb-9506-472869077634"))
+        .groups(java.util.Arrays.asList("default", secretGroupIdForGetSecretGroupLink))
         .build();
 
       // Test getNext().
@@ -1139,8 +1152,8 @@ public class SecretsManagerIT extends SdkIntegrationTestBase {
   public void testUpdateConfiguration() throws Exception {
     try {
       PublicCertificateConfigurationDNSCloudInternetServicesPatch configurationPatchModel = new PublicCertificateConfigurationDNSCloudInternetServicesPatch.Builder()
-        .cloudInternetServicesApikey("5ipu_ykv0PMp2MhxQnDMn7VzrkSlBwi3BOI8uthi_EXZ")
-        .cloudInternetServicesCrn("crn:v1:bluemix:public:internet-svcs:global:a/128e84fcca45c1224aae525d31ef2b52:009a0357-1460-42b4-b903-10580aba7dd8::")
+        .cloudInternetServicesApikey(getRawConfigProperty("DNS_CONFIG_API_KEY"))
+        .cloudInternetServicesCrn(getRawConfigProperty("DNS_CONFIG_CRN"))
         .build();
       Map<String, Object> configurationPatchModelAsPatch = configurationPatchModel.asPatch();
 
@@ -1174,7 +1187,7 @@ public class SecretsManagerIT extends SdkIntegrationTestBase {
   public void testCreateNotificationsRegistration() throws Exception {
     try {
       CreateNotificationsRegistrationOptions createNotificationsRegistrationOptions = new CreateNotificationsRegistrationOptions.Builder()
-        .eventNotificationsInstanceCrn("crn:v1:bluemix:public:event-notifications:us-south:a/22018f3c34ff4ff193698d15ca316946:578ad1a4-2fd8-4e66-95d5-79a842ba91f8::")
+        .eventNotificationsInstanceCrn(config.get("EN_INSTANCE_CRN"))
         .eventNotificationsSourceName("My Secrets Manager")
         .eventNotificationsSourceDescription("Optional description of this source in an Event Notifications instance.")
         .build();
@@ -1236,11 +1249,6 @@ public class SecretsManagerIT extends SdkIntegrationTestBase {
           e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
     }
   }
-
-  // The integration test for deleteSecretVersionData has been explicitly excluded from generation.
-  // A test for this operation must be developed manually.
-  // @Test
-  // public void testDeleteSecretVersionData() throws Exception {}
 
   @Test(dependsOnMethods = { "testDeleteSecretGroup" })
   public void testDeleteSecretLocksBulk() throws Exception {
@@ -1307,6 +1315,11 @@ public class SecretsManagerIT extends SdkIntegrationTestBase {
           e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
     }
   }
+
+  // The integration test for deleteSecretVersionData has been explicitly excluded from generation.
+  // A test for this operation must be developed manually.
+  // @Test
+  // public void testDeleteSecretVersionData() throws Exception {}
 
   // The integration test for deleteSecretTask has been explicitly excluded from generation.
   // A test for this operation must be developed manually.

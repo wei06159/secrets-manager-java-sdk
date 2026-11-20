@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2025.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -95,6 +95,19 @@ public class SecretPrototype extends GenericModel {
     String PKCS8 = "pkcs8";
   }
 
+  /**
+   * The certificate profile to request from Let's Encrypt. Supported values are 'classic', 'tlsserver', and
+   * 'shortlived'. If not specified, the 'classic' profile is used.
+   */
+  public interface Profile {
+    /** classic. */
+    String CLASSIC = "classic";
+    /** tlsserver. */
+    String TLSSERVER = "tlsserver";
+    /** shortlived. */
+    String SHORTLIVED = "shortlived";
+  }
+
   @SerializedName("custom_metadata")
   protected Map<String, Object> customMetadata;
   protected String description;
@@ -150,6 +163,7 @@ public class SecretPrototype extends GenericModel {
   protected String dns;
   @SerializedName("bundle_certs")
   protected Boolean bundleCerts;
+  protected String profile;
   @SerializedName("source_service")
   protected ServiceCredentialsSecretSourceService sourceService;
   protected String username;
@@ -252,7 +266,7 @@ public class SecretPrototype extends GenericModel {
   /**
    * Gets the payload.
    *
-   * The secret data that is assigned to an `arbitrary` secret.
+   * The secret data that is assigned to an `ARBITRARY` secret.
    *
    * @return the payload
    */
@@ -275,13 +289,13 @@ public class SecretPrototype extends GenericModel {
    * Gets the ttl.
    *
    * The time-to-live (TTL) or lease duration to assign to credentials that are generated. Supported secret types:
-   * iam_credentials, service_credentials, custom_credentials. The TTL defines how long generated credentials remain
-   * valid. The value can be either an integer that specifies the number of seconds, or the string  representation of a
-   * duration, such as `1440m` or `24h`. For the iam_credentials secret type, the TTL field is mandatory. The minimum
-   * duration is 1 minute. The maximum is 90 days. For the service_credentials secret type, the TTL field is optional.
-   * If it is set the minimum duration is 1 day. The maximum is 90 days. By default, the TTL is set to 0. After the TTL
-   * is modified, it will be applied only on the next secret rotation. For the custom_credentials secret type, the TTL
-   * field is optional. The minimum duration is 1 day. The maximum is 90 days.
+   * `IAM_CREDENTIALS`, `SERVICE_CREDENTIALS`, `CUSTOM_CREDENTIALS`. The TTL defines how long generated credentials
+   * remain valid. The value can be either an integer that specifies the number of seconds, or the string
+   * representation of a duration, such as `1440m` or `24h`. For the iam_credentials secret type, the TTL field is
+   * mandatory. The minimum duration is 1 minute. The maximum is 90 days. For the service_credentials secret type, the
+   * TTL field is optional. If it is set the minimum duration is 1 day. The maximum is 90 days. By default, the TTL is
+   * set to 0. After the TTL is modified, it will be applied only on the next secret rotation. For the
+   * custom_credentials secret type, the TTL field is optional. The minimum duration is 1 day. The maximum is 90 days.
    *
    * @return the ttl
    */
@@ -292,7 +306,7 @@ public class SecretPrototype extends GenericModel {
   /**
    * Gets the accessGroups.
    *
-   * Access Groups that you can use for an `iam_credentials` secret.
+   * Access Groups that you can use for an `IAM_CREDENTIALS` secret.
    *
    * Up to 10 Access Groups can be used for each secret.
    *
@@ -350,7 +364,7 @@ public class SecretPrototype extends GenericModel {
    * Gets the rotation.
    *
    * This field indicates whether Secrets Manager rotates your secrets automatically. Supported secret types:
-   * username_password, private_cert, public_cert, iam_credentials, custom_credentials.
+   * `USERNAME_PASSWORD`, `PRIVATE_CERT`, `PUBLIC_CERT`, `IAM_CREDENTIALS`, `CUSTOM_CREDENTIALS`.
    *
    * @return the rotation
    */
@@ -584,6 +598,18 @@ public class SecretPrototype extends GenericModel {
   }
 
   /**
+   * Gets the profile.
+   *
+   * The certificate profile to request from Let's Encrypt. Supported values are 'classic', 'tlsserver', and
+   * 'shortlived'. If not specified, the 'classic' profile is used.
+   *
+   * @return the profile
+   */
+  public String profile() {
+    return profile;
+  }
+
+  /**
    * Gets the sourceService.
    *
    * The properties that are required to create the service credentials for the specified source service instance.
@@ -597,7 +623,7 @@ public class SecretPrototype extends GenericModel {
   /**
    * Gets the username.
    *
-   * The username that is assigned to an `username_password` secret.
+   * The username that is assigned to an `USERNAME_PASSWORD` secret.
    *
    * @return the username
    */
@@ -608,7 +634,7 @@ public class SecretPrototype extends GenericModel {
   /**
    * Gets the password.
    *
-   * The password that is assigned to an `username_password` secret. If you omit this parameter, Secrets Manager
+   * The password that is assigned to an `USERNAME_PASSWORD` secret. If you omit this parameter, Secrets Manager
    * generates a new random password for your secret.
    *
    * @return the password
@@ -642,7 +668,7 @@ public class SecretPrototype extends GenericModel {
   /**
    * Gets the parameters.
    *
-   * The parameters that are passed to custom credentials engine. Allowed types are 'string', 'integer' and 'boolean'.
+   * The parameters that are passed to custom credentials engine. Allowed types are string, integer, and boolean.
    *
    * @return the parameters
    */

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2025.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -54,6 +54,7 @@ public class PublicCertificatePrototypeTest {
       .dns("my-dns-config")
       .bundleCerts(true)
       .rotation(rotationPolicyModel)
+      .profile("shortlived")
       .customMetadata(java.util.Collections.singletonMap("anyKey", "anyValue"))
       .versionCustomMetadata(java.util.Collections.singletonMap("anyKey", "anyValue"))
       .build();
@@ -69,6 +70,7 @@ public class PublicCertificatePrototypeTest {
     assertEquals(publicCertificatePrototypeModel.dns(), "my-dns-config");
     assertEquals(publicCertificatePrototypeModel.bundleCerts(), Boolean.valueOf(true));
     assertEquals(publicCertificatePrototypeModel.rotation(), rotationPolicyModel);
+    assertEquals(publicCertificatePrototypeModel.profile(), "shortlived");
     assertEquals(publicCertificatePrototypeModel.customMetadata(), java.util.Collections.singletonMap("anyKey", "anyValue"));
     assertEquals(publicCertificatePrototypeModel.versionCustomMetadata(), java.util.Collections.singletonMap("anyKey", "anyValue"));
 
@@ -86,6 +88,7 @@ public class PublicCertificatePrototypeTest {
     assertEquals(publicCertificatePrototypeModelNew.dns(), "my-dns-config");
     assertEquals(publicCertificatePrototypeModelNew.bundleCerts(), Boolean.valueOf(true));
     assertEquals(publicCertificatePrototypeModelNew.rotation().toString(), rotationPolicyModel.toString());
+    assertEquals(publicCertificatePrototypeModelNew.profile(), "shortlived");
     assertEquals(publicCertificatePrototypeModelNew.customMetadata().toString(), java.util.Collections.singletonMap("anyKey", "anyValue").toString());
     assertEquals(publicCertificatePrototypeModelNew.versionCustomMetadata().toString(), java.util.Collections.singletonMap("anyKey", "anyValue").toString());
   }

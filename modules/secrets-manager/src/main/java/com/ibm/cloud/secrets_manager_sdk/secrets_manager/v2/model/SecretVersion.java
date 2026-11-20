@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2025.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -292,7 +292,7 @@ public class SecretVersion extends GenericModel {
   /**
    * Gets the payload.
    *
-   * The secret data that is assigned to an `arbitrary` secret.
+   * The secret data that is assigned to an `ARBITRARY` secret.
    *
    * @return the payload
    */
@@ -470,7 +470,7 @@ public class SecretVersion extends GenericModel {
   /**
    * Gets the username.
    *
-   * The username that is assigned to an `username_password` secret.
+   * The username that is assigned to an `USERNAME_PASSWORD` secret.
    *
    * @return the username
    */
@@ -481,7 +481,8 @@ public class SecretVersion extends GenericModel {
   /**
    * Gets the password.
    *
-   * The password that is assigned to an `username_password` secret.
+   * The password that is assigned to an `USERNAME_PASSWORD` secret. Returned as stored; not subject to write-time
+   * length constraints.
    *
    * @return the password
    */
@@ -503,8 +504,8 @@ public class SecretVersion extends GenericModel {
   /**
    * Gets the credentialsContent.
    *
-   * The fields that can be passed to and from the custom credentials engine. Allowed types are 'string', 'integer' and
-   * 'boolean'.
+   * The fields that can be passed to and from the custom credentials engine. Allowed types are string, integer, and
+   * boolean.
    *
    * @return the credentialsContent
    */

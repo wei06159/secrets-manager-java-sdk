@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2025.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -199,6 +199,32 @@ public class SecretsManagerExamples {
     }
 
     try {
+      System.out.println("listSecrets() result:");
+      // begin-list_secrets
+      ListSecretsOptions listSecretsOptions = new ListSecretsOptions.Builder()
+        .limit(Long.valueOf("10"))
+        .sort("created_at")
+        .search("example")
+        .groups(java.util.Arrays.asList("default", "cac40995-c37a-4dcb-9506-472869077634"))
+        .secretTypes(java.util.Arrays.asList("arbitrary", "kv"))
+        .matchAllLabels(java.util.Arrays.asList("dev", "us-south"))
+        .build();
+
+      SecretsPager pager = new SecretsPager(secretsManagerService, listSecretsOptions);
+      List<SecretMetadata> allResults = new ArrayList<>();
+      while (pager.hasNext()) {
+        List<SecretMetadata> nextPage = pager.getNext();
+        allResults.addAll(nextPage);
+      }
+
+      System.out.println(GsonSingleton.getGson().toJson(allResults));
+      // end-list_secrets
+    } catch (ServiceResponseException e) {
+        logger.error(String.format("Service returned status code %s: %s%nError details: %s",
+          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()), e);
+    }
+
+    try {
       System.out.println("updateSecretMetadata() result:");
       // begin-update_secret_metadata
       ArbitrarySecretMetadataPatch secretMetadataPatchModel = new ArbitrarySecretMetadataPatch.Builder()
@@ -348,32 +374,6 @@ public class SecretsManagerExamples {
 
       System.out.println(secretGroup);
       // end-update_secret_group
-    } catch (ServiceResponseException e) {
-        logger.error(String.format("Service returned status code %s: %s%nError details: %s",
-          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()), e);
-    }
-
-    try {
-      System.out.println("listSecrets() result:");
-      // begin-list_secrets
-      ListSecretsOptions listSecretsOptions = new ListSecretsOptions.Builder()
-        .limit(Long.valueOf("10"))
-        .sort("created_at")
-        .search("example")
-        .groups(java.util.Arrays.asList("default", "cac40995-c37a-4dcb-9506-472869077634"))
-        .secretTypes(java.util.Arrays.asList("arbitrary", "kv"))
-        .matchAllLabels(java.util.Arrays.asList("dev", "us-south"))
-        .build();
-
-      SecretsPager pager = new SecretsPager(secretsManagerService, listSecretsOptions);
-      List<SecretMetadata> allResults = new ArrayList<>();
-      while (pager.hasNext()) {
-        List<SecretMetadata> nextPage = pager.getNext();
-        allResults.addAll(nextPage);
-      }
-
-      System.out.println(GsonSingleton.getGson().toJson(allResults));
-      // end-list_secrets
     } catch (ServiceResponseException e) {
         logger.error(String.format("Service returned status code %s: %s%nError details: %s",
           e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()), e);
@@ -860,21 +860,6 @@ public class SecretsManagerExamples {
     }
 
     try {
-      // begin-delete_secret_version_data
-      DeleteSecretVersionDataOptions deleteSecretVersionDataOptions = new DeleteSecretVersionDataOptions.Builder()
-        .secretId(secretIdForGetSecretLink)
-        .id(secretVersionIdForGetSecretVersionLink)
-        .build();
-
-      Response<Void> response = secretsManagerService.deleteSecretVersionData(deleteSecretVersionDataOptions).execute();
-      // end-delete_secret_version_data
-      System.out.printf("deleteSecretVersionData() response status code: %d%n", response.getStatusCode());
-    } catch (ServiceResponseException e) {
-        logger.error(String.format("Service returned status code %s: %s%nError details: %s",
-          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()), e);
-    }
-
-    try {
       System.out.println("deleteSecretLocksBulk() result:");
       // begin-delete_secret_locks_bulk
       DeleteSecretLocksBulkOptions deleteSecretLocksBulkOptions = new DeleteSecretLocksBulkOptions.Builder()
@@ -920,6 +905,21 @@ public class SecretsManagerExamples {
       Response<Void> response = secretsManagerService.deleteSecret(deleteSecretOptions).execute();
       // end-delete_secret
       System.out.printf("deleteSecret() response status code: %d%n", response.getStatusCode());
+    } catch (ServiceResponseException e) {
+        logger.error(String.format("Service returned status code %s: %s%nError details: %s",
+          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()), e);
+    }
+
+    try {
+      // begin-delete_secret_version_data
+      DeleteSecretVersionDataOptions deleteSecretVersionDataOptions = new DeleteSecretVersionDataOptions.Builder()
+        .secretId(secretIdForGetSecretLink)
+        .id(secretVersionIdForGetSecretVersionLink)
+        .build();
+
+      Response<Void> response = secretsManagerService.deleteSecretVersionData(deleteSecretVersionDataOptions).execute();
+      // end-delete_secret_version_data
+      System.out.printf("deleteSecretVersionData() response status code: %d%n", response.getStatusCode());
     } catch (ServiceResponseException e) {
         logger.error(String.format("Service returned status code %s: %s%nError details: %s",
           e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()), e);

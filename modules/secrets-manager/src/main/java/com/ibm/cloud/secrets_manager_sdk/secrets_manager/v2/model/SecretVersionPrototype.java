@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2025.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -56,7 +56,7 @@ public class SecretVersionPrototype extends GenericModel {
   /**
    * Gets the payload.
    *
-   * The secret data that is assigned to an `arbitrary` secret.
+   * The secret data that is assigned to an `ARBITRARY` secret.
    *
    * @return the payload
    */
@@ -168,7 +168,7 @@ public class SecretVersionPrototype extends GenericModel {
   /**
    * Gets the password.
    *
-   * The password that is assigned to an `username_password` secret. If you omit this parameter, Secrets Manager
+   * The password that is assigned to an `USERNAME_PASSWORD` secret. If you omit this parameter, Secrets Manager
    * generates a new random password for your secret.
    *
    * @return the password

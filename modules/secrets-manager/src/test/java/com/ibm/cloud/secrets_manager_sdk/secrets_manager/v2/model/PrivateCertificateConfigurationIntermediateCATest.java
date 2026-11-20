@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2025.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -41,16 +41,13 @@ public class PrivateCertificateConfigurationIntermediateCATest {
     assertNull(privateCertificateConfigurationIntermediateCaModel.getCreatedBy());
     assertNull(privateCertificateConfigurationIntermediateCaModel.getCreatedAt());
     assertNull(privateCertificateConfigurationIntermediateCaModel.getUpdatedAt());
-    assertNull(privateCertificateConfigurationIntermediateCaModel.getCommonName());
     assertNull(privateCertificateConfigurationIntermediateCaModel.isCrlDistributionPointsEncoded());
-    assertNull(privateCertificateConfigurationIntermediateCaModel.getIssuer());
     assertNull(privateCertificateConfigurationIntermediateCaModel.getKeyType());
     assertNull(privateCertificateConfigurationIntermediateCaModel.getKeyBits());
     assertNull(privateCertificateConfigurationIntermediateCaModel.getSigningMethod());
     assertNull(privateCertificateConfigurationIntermediateCaModel.getCryptoKey());
     assertNull(privateCertificateConfigurationIntermediateCaModel.isCrlDisable());
     assertNull(privateCertificateConfigurationIntermediateCaModel.isIssuingCertificatesUrlsEncoded());
-    assertNull(privateCertificateConfigurationIntermediateCaModel.getAltNames());
     assertNull(privateCertificateConfigurationIntermediateCaModel.getIpSans());
     assertNull(privateCertificateConfigurationIntermediateCaModel.getUriSans());
     assertNull(privateCertificateConfigurationIntermediateCaModel.getOtherSans());

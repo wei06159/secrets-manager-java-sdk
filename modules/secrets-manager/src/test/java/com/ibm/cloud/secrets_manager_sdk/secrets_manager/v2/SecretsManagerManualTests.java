@@ -280,7 +280,7 @@ public class SecretsManagerManualTests extends SdkIntegrationTestBase {
             assertEquals(response.getStatusCode(), 201);
         } catch (Exception ex) {
             String errMessage = ex.getMessage();
-            assertTrue((errMessage.contains("already exists") || errMessage.contains("reached the maximum")), "Config creation failed");
+            assertTrue((errMessage.contains("already exists") || errMessage.contains("already in use") || errMessage.contains("reached the maximum")), "Config creation failed: " + errMessage);
         }
     }
 

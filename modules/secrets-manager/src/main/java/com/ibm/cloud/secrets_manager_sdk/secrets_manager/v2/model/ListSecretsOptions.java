@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2025.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -282,7 +282,7 @@ public class ListSecretsOptions extends GenericModel {
    * character
    *
    *
-   * **Available values:** id | created_at | updated_at | retrieved_at | expiration_date | secret_type | name
+   * **Available values:** `id`, `created_at`, `updated_at`, `retrieved_at`, `expiration_date`, `secret_type`, `name`
    *
    * **Usage:** To sort a list of secrets by their creation date, use
    * `../secrets?sort=created_at`.

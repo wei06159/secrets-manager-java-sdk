@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2025.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -209,7 +209,7 @@ public class ListConfigurationsOptions extends GenericModel {
    * `-` character
    *
    *
-   * **Available values:**  config_type | secret_type | name
+   * **Available values:** `config_type`, `secret_type`, `name`
    *
    * **Usage:** To sort a list of configurations by their creation date, use
    * `../configurations?sort=config_type`.
@@ -238,12 +238,12 @@ public class ListConfigurationsOptions extends GenericModel {
   /**
    * Gets the secretTypes.
    *
-   * Filter configurations by secret types, iam_credentials, public_cert or private_cert.
+   * Filter configurations by secret types: `IAM_CREDENTIALS`, `PUBLIC_CERT`, `PRIVATE_CERT`, or `CUSTOM_CREDENTIALS`.
    *
    * You can apply multiple filters by using a comma-separated list of secret types.
    *
    * **Usage:** To retrieve a list of configurations that are associated with all secret types, use
-   * `..?secret_types=iam_credentials,public_cert,private_cert,custom_credentials`.
+   * `..?secret_types=IAM_CREDENTIALS,PUBLIC_CERT,PRIVATE_CERT,CUSTOM_CREDENTIALS`.
    *
    * @return the secretTypes
    */

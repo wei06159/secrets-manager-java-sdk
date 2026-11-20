@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2025.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -19,10 +19,17 @@ package com.ibm.cloud.secrets_manager_sdk.secrets_manager.v2.model;
 public class PrivateCertificateConfigurationRootCAMetadata extends ConfigurationMetadata {
 
   /**
-   * The configuration type. Can be one of: iam_credentials_configuration, public_cert_configuration_ca_lets_encrypt,
-   * public_cert_configuration_dns_classic_infrastructure, public_cert_configuration_dns_cloud_internet_services,
-   * private_cert_configuration_root_ca, private_cert_configuration_intermediate_ca,
-   * private_cert_configuration_template, custom_credentials_configuration.
+   * The configuration type:
+   * * `iam_credentials_configuration`: IAM credentials configuration.
+   * * `public_cert_configuration_ca_lets_encrypt`: Public certificate Let's Encrypt CA configuration.
+   * * `public_cert_configuration_dns_classic_infrastructure`: Public certificate DNS configuration for IBM Cloud
+   * classic infrastructure.
+   * * `public_cert_configuration_dns_cloud_internet_services`: Public certificate DNS configuration for IBM Cloud Cloud
+   * Internet Services.
+   * * `private_cert_configuration_root_ca`: Private certificate root CA configuration.
+   * * `private_cert_configuration_intermediate_ca`: Private certificate intermediate CA configuration.
+   * * `private_cert_configuration_template`: Private certificate certificate template configuration.
+   * * `custom_credentials_configuration`: Custom credentials configuration.
    */
   public interface ConfigType {
     /** public_cert_configuration_dns_cloud_internet_services. */
