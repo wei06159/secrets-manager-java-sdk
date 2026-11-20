@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2025.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -47,6 +47,19 @@ public class PublicCertificatePrototype extends SecretPrototype {
     String CUSTOM_CREDENTIALS = "custom_credentials";
   }
 
+  /**
+   * The certificate profile to request from Let's Encrypt. Supported values are 'classic', 'tlsserver', and
+   * 'shortlived'. If not specified, the 'classic' profile is used.
+   */
+  public interface Profile {
+    /** classic. */
+    String CLASSIC = "classic";
+    /** tlsserver. */
+    String TLSSERVER = "tlsserver";
+    /** shortlived. */
+    String SHORTLIVED = "shortlived";
+  }
+
 
   /**
    * Builder.
@@ -64,6 +77,7 @@ public class PublicCertificatePrototype extends SecretPrototype {
     private String dns;
     private Boolean bundleCerts;
     private RotationPolicy rotation;
+    private String profile;
     private Map<String, Object> customMetadata;
     private Map<String, Object> versionCustomMetadata;
 
@@ -85,6 +99,7 @@ public class PublicCertificatePrototype extends SecretPrototype {
       this.dns = publicCertificatePrototype.dns;
       this.bundleCerts = publicCertificatePrototype.bundleCerts;
       this.rotation = publicCertificatePrototype.rotation;
+      this.profile = publicCertificatePrototype.profile;
       this.customMetadata = publicCertificatePrototype.customMetadata;
       this.versionCustomMetadata = publicCertificatePrototype.versionCustomMetadata;
     }
@@ -286,6 +301,17 @@ public class PublicCertificatePrototype extends SecretPrototype {
     }
 
     /**
+     * Set the profile.
+     *
+     * @param profile the profile
+     * @return the PublicCertificatePrototype builder
+     */
+    public Builder profile(String profile) {
+      this.profile = profile;
+      return this;
+    }
+
+    /**
      * Set the customMetadata.
      *
      * @param customMetadata the customMetadata
@@ -331,6 +357,7 @@ public class PublicCertificatePrototype extends SecretPrototype {
     dns = builder.dns;
     bundleCerts = builder.bundleCerts;
     rotation = builder.rotation;
+    profile = builder.profile;
     customMetadata = builder.customMetadata;
     versionCustomMetadata = builder.versionCustomMetadata;
   }

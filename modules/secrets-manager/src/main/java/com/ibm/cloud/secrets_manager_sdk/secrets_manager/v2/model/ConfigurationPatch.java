@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2025.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -171,8 +171,7 @@ public class ConfigurationPatch extends GenericModel {
    *
    * This parameter indicates whether the API key configuration is disabled.
    *
-   * If it is set to `disabled`, the IAM credentials engine doesn't use the configured API key for credentials
-   * management.
+   * If it is set to `disabled`, IAM credentials don't use the configured API key for credentials management.
    *
    * @return the disabled
    */
@@ -184,6 +183,18 @@ public class ConfigurationPatch extends GenericModel {
    * Gets the maxTtl.
    *
    * The maximum time-to-live (TTL) for certificates that are created by this CA.
+   *
+   * The value can be supplied as a string representation of a duration in hours, for example '8760h'. In the API
+   * response, this value is returned in seconds (integer).
+   *
+   * Minimum value is one hour (`1h`). Maximum value is 100 years (`876000h`) or the maximum time-to-live (TTL) for
+   * certificates that are created by this CA.
+   *
+   * The value can be supplied as a string representation of a duration in hours, for example '8760h'. In the API
+   * response, this value is returned in seconds (integer).
+   *
+   * Minimum value is one hour (`1h`). Maximum value is 100 years (`876000h`) or the maximum time-to-live (TTL) for
+   * certificates that are created by this CA.
    *
    * The value can be supplied as a string representation of a duration in hours, for example '8760h'. In the API
    * response, this value is returned in seconds (integer).
@@ -204,6 +215,12 @@ public class ConfigurationPatch extends GenericModel {
    * The value can be supplied as a string representation of a duration in hours, such as `48h`. The default is 72
    * hours. In the API response, this value is returned in seconds (integer).
    *
+   * **Note:** The CRL is rotated automatically before it expires or the time until the certificate revocation list
+   * (CRL) expires.
+   *
+   * The value can be supplied as a string representation of a duration in hours, such as `48h`. The default is 72
+   * hours. In the API response, this value is returned in seconds (integer).
+   *
    * **Note:** The CRL is rotated automatically before it expires.
    *
    * @return the crlExpiry
@@ -218,6 +235,10 @@ public class ConfigurationPatch extends GenericModel {
    * This field disables or enables certificate revocation list (CRL) building.
    *
    * If CRL building is disabled, a signed but zero-length CRL is returned when you're downloading the CRL. If CRL
+   * building is enabled, it rebuilds the CRL or this field disables or enables certificate revocation list (CRL)
+   * building.
+   *
+   * If CRL building is disabled, a signed but zero-length CRL is returned when you're downloading the CRL. If CRL
    * building is enabled, it rebuilds the CRL.
    *
    * @return the crlDisable
@@ -230,7 +251,9 @@ public class ConfigurationPatch extends GenericModel {
    * Gets the crlDistributionPointsEncoded.
    *
    * This field determines whether to encode the certificate revocation list (CRL) distribution points in the
-   * certificates that are issued by this certificate authority.
+   * certificates that are issued by this certificate authority or this field determines whether to encode the
+   * certificate revocation list (CRL) distribution points in the certificates that are issued by this certificate
+   * authority.
    *
    * @return the crlDistributionPointsEncoded
    */
@@ -242,7 +265,8 @@ public class ConfigurationPatch extends GenericModel {
    * Gets the issuingCertificatesUrlsEncoded.
    *
    * This field determines whether to encode the URL of the issuing certificate in the certificates that are issued by
-   * this certificate authority.
+   * this certificate authority or this field determines whether to encode the URL of the issuing certificate in the
+   * certificates that are issued by this certificate authority.
    *
    * @return the issuingCertificatesUrlsEncoded
    */

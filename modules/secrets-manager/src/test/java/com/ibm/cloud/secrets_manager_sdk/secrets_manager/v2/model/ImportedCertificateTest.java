@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2025.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -48,10 +48,7 @@ public class ImportedCertificateTest {
     assertNull(importedCertificateModel.getUpdatedAt());
     assertNull(importedCertificateModel.getVersionsTotal());
     assertNull(importedCertificateModel.getSigningAlgorithm());
-    assertNull(importedCertificateModel.getAltNames());
-    assertNull(importedCertificateModel.getCommonName());
     assertNull(importedCertificateModel.isIntermediateIncluded());
-    assertNull(importedCertificateModel.getIssuer());
     assertNull(importedCertificateModel.isPrivateKeyIncluded());
     assertNull(importedCertificateModel.getSerialNumber());
     assertNull(importedCertificateModel.getValidity());

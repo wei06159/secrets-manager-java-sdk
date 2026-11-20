@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2025.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -18,7 +18,7 @@ import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
  * This field indicates whether Secrets Manager rotates your secrets automatically. Supported secret types:
- * username_password, private_cert, public_cert, iam_credentials, custom_credentials.
+ * `USERNAME_PASSWORD`, `PRIVATE_CERT`, `PUBLIC_CERT`, `IAM_CREDENTIALS`, `CUSTOM_CREDENTIALS`.
  *
  * Classes which extend this class:
  * - CommonRotationPolicy
@@ -51,6 +51,9 @@ public class RotationPolicy extends GenericModel {
    * Gets the autoRotate.
    *
    * This field indicates whether Secrets Manager rotates your secret automatically.
+   *
+   * The default is `false`. If `auto_rotate` is set to `true` the service rotates your secret based on the defined
+   * interval or this field indicates whether Secrets Manager rotates your secret automatically.
    *
    * The default is `false`. If `auto_rotate` is set to `true` the service rotates your secret based on the defined
    * interval.

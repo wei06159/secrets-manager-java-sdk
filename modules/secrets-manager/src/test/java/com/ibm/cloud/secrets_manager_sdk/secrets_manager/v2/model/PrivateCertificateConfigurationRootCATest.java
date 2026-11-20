@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2025.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -41,14 +41,12 @@ public class PrivateCertificateConfigurationRootCATest {
     assertNull(privateCertificateConfigurationRootCaModel.getCreatedBy());
     assertNull(privateCertificateConfigurationRootCaModel.getCreatedAt());
     assertNull(privateCertificateConfigurationRootCaModel.getUpdatedAt());
-    assertNull(privateCertificateConfigurationRootCaModel.getCommonName());
     assertNull(privateCertificateConfigurationRootCaModel.isCrlDistributionPointsEncoded());
     assertNull(privateCertificateConfigurationRootCaModel.getKeyType());
     assertNull(privateCertificateConfigurationRootCaModel.getKeyBits());
     assertNull(privateCertificateConfigurationRootCaModel.getCryptoKey());
     assertNull(privateCertificateConfigurationRootCaModel.isCrlDisable());
     assertNull(privateCertificateConfigurationRootCaModel.isIssuingCertificatesUrlsEncoded());
-    assertNull(privateCertificateConfigurationRootCaModel.getAltNames());
     assertNull(privateCertificateConfigurationRootCaModel.getIpSans());
     assertNull(privateCertificateConfigurationRootCaModel.getUriSans());
     assertNull(privateCertificateConfigurationRootCaModel.getOtherSans());
